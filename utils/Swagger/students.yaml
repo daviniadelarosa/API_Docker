@@ -1,0 +1,322 @@
+openapi: 3.0.0
+info:
+  title: API de Estudiantes
+  version: 1.0.0
+paths:
+
+  /trainingpro/v1/user/login:
+    post:
+      tags:
+        - Students
+      summary: Inicio de sesión de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: "nono@gmail.com"
+                pass:
+                  type: string
+                  example: "miPass2"
+      responses:
+        '202':
+          description: Usuario autenticado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "---- Usuario logueado correctamente ------"
+                  token:
+                    type: string
+                    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '400':
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Faltan datos obligatorios"
+        '500':
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error al hacer login"
+
+  /trainingpro/v1/user/all-users:
+    get:
+      tags:
+        - Students
+      summary: Obtener todos los usuarios
+      responses:
+        '201':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    dni:
+                      type: string
+                      example: "11111111A"
+                    phone:
+                      type: string
+                      example: "123465789"
+                    full_name:
+                      type: string
+                      example: "Jose Luis Calleja Roman"
+                    email:
+                      type: string
+                      example: "jl.calleja@example.com"
+        '500':
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error"
+                  error:
+                    type: object
+                    example: "{}"
+
+  /trainingpro/v1/user/update-pass:
+    post:
+      tags:
+        - Students
+      summary: Actualizar la contraseña del usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "nananana@gmail.com"
+      responses:
+        '200':
+          description: Contraseña actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario encontrado. Aquí está el token para cambiar la contraseña."
+                  token:
+                    type: string
+                    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        '400':
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "El campo email es obligatorio"
+        
+        '500':
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error"
+                  error:
+                    type: object
+                    example: "{}"
+
+  /trainingpro/v1/user/confirm-pass/{token}:
+    post:
+      tags:
+        - Students
+      summary: Confirm user password
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: Token para confirmación de contraseña
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pass:
+                  type: string
+                  example: "newpassword456"
+      responses:
+        '200':
+          description: Contraseña confirmada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Contraseña actualizada correctamente."
+        '500':
+          description: Error al validar el token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error"
+                  error:
+                    type: object
+                    example: "{}"
+
+  /trainingpro/v1/user/data-user-login:
+    post:
+      tags:
+        - Students
+      summary: Obtener información de inicio de sesión del estudiante.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "alumn01@gmail.com"
+                rol:
+                  type: string
+                  example: "students"
+      responses:
+        '200':
+          description: Información de inicio de sesión del estudiante
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  full_name:
+                    type: string
+                    example: "Jose Luis Calleja Roman"
+                  address:
+                    type: string
+                    example: "C/Alguna,15, 28546 Alcobendas"
+                  phone:
+                    type: string
+                    example: "123456789"
+                  email:
+                    type: string
+                    example: "estudiante@example.com"
+                  dni:
+                    type: string
+                    example: "12345678A"
+        '401':
+          description: Usuario no valido.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario no valido"
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el servidor"
+                  error:
+                    type: object
+                    example: "{}"
+
+  /trainingpro/v1/user/confirm-user:
+    post:
+      tags:
+        - Students
+      summary: Registrar un nuevo usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                info:
+                  type: string
+                  example: "nananana@gmail.com"
+      responses:
+        '200':
+          description: Usuario registrado con éxito.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "nono@gmail.com registrado con éxito!"
+        '400':
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "El campo email/DNI es obligatorio"
+        '401':
+          description: Usuario no encontrado o ya registrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "El email no está en la base de datos o ya se encuentra registrado"
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error en el registro"

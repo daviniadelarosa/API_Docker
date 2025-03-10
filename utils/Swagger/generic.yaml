@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: API de General
+  version: 1.0.0
+paths:
+
+  /trainingpro/v1/generic/lopd:
+    get:
+      tags:
+        - Generic
+      summary: Mostrar LOPD
+      responses:
+        '200':
+          description: Muestra datos de la LOPD.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: "67868ab3c69cb35b43c45f58"
+                    text:
+                      type: string
+                      example: "Ejemplo de texto LOPD"

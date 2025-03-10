@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: API de Cursos
+  version: 1.0.0
+  
+paths:
+  /trainingpro/v1/courses/all-courses:
+    get:
+      tags:
+        - Courses
+      summary: Ver todos los cursos
+      responses:
+        '200':
+          description: Lista de cursos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: "6786a9866958d46355883f92"
+                    codigo:
+                      type: string
+                      example: "IFCD001PO"
+                    nombre_curso:
+                      type: string
+                      example: "AJAX Y JAVA PARA DESARROLLO DE INTERFACES WEB RIA"
+
+
